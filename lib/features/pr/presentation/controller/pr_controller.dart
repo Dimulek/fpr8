@@ -1,8 +1,6 @@
-import 'package:dartz/dartz_unsafe.dart';
 import 'package:flutter/material.dart';
 import 'package:fpr8/features/pr/domain/entity/pr_entity.dart';
 import 'package:fpr8/features/pr/domain/repository/pr_repository.dart';
-import 'package:get_it/get_it.dart';
 import 'package:uuid/uuid.dart';
 
 enum PrState {
