@@ -1,8 +1,8 @@
 class PrEntity {
   final String id;
-  final String title;
-  final String description;
-  final String full_description;
+  String title;
+  String description;
+  String full_description;
 
   PrEntity({
     required this.id,
@@ -10,4 +10,12 @@ class PrEntity {
     required this.description,
     required this.full_description,
   });
+  PrEntity copyWith(PrEntity? entity) {
+    return PrEntity(
+      id: id,
+      title: entity?.title ?? title,
+      description: entity?.description ?? description,
+      full_description: entity?.full_description ?? full_description,
+    );
+  }
 }

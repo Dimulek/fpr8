@@ -7,6 +7,7 @@ abstract class PrRepository {
     bool isFinished = false,
   ]);
   Future<Either<Fauiler, Unit>> readPr(PrEntity entity);
-  Future<Either<Fauiler, Unit>> updatePr(PrEntity entity);
+  Future<Either<Fauiler, Unit>> updatePr(int index, PrEntity entity);
   Future<Either<Fauiler, Unit>> deletePr(PrEntity entity);
+
 }

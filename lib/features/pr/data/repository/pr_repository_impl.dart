@@ -39,9 +39,9 @@ class PrRepositoryImpl implements PrRepository {
   }
 
   @override
-  Future<Either<Fauiler, Unit>> updatePr(PrEntity entity) async {
+  Future<Either<Fauiler, Unit>> updatePr(int index, PrEntity entity) async {
     try {
-      await local.updatePr(entity.toModel());
+      await local.readPr(entity.toModel());
       return right(unit);
     } on CacheException catch (_) {
       return left(CacheFauiler());

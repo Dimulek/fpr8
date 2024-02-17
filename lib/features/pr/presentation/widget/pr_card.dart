@@ -1,9 +1,14 @@
+import 'dart:js_interop_unsafe';
+
 import 'package:flutter/material.dart';
+import 'package:fpr8/features/pr/presentation/ui/home_pr.dart';
+import 'package:fpr8/routes/app_router.dart';
+import 'package:fpr8/routes/router_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:fpr8/features/pr/presentation/controller/pr_controller.dart';
 
 class PrCard extends StatelessWidget {
-  const PrCard({
+  PrCard({
     super.key,
     required this.index,
   });
@@ -14,18 +19,60 @@ class PrCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ExpansionTile(
-        title: Text(context.read<PrController>().getPrList[index].title),
+        title: Row(
+          children: <Widget>[
+            CheckboxStateful(index: index),
+            Text(context.read<PrController>().getPrList[index].title + "  index = ${index}")
+          ],
+        ),
         leading: ElevatedButton(
-          onPressed: () => context.read<PrController>().onTravel(
-                index,
-              ),
-          child: Icon(Icons.mark_as_unread_sharp),
+          onPressed: () {
+            AppRouter.router.goNamed(Pages.infoPr.screenName,
+                pathParameters: {'id': index.toString()});
+          },
+          child: const Icon(Icons.mark_as_unread_sharp),
         ),
         children: [
-          const Text("Описание"),
+          const Text("Краткое описание"),
           Text(context.read<PrController>().getPrList[index].description),
         ],
       ),
     );
+  }
+}
+
+class CheckboxStateful extends StatefulWidget {
+  CheckboxStateful({required this.index, super.key});
+
+  final int index;
+  bool is_check = false;
+
+  @override
+  State<CheckboxStateful> createState() =>
+      _CheckboxStatefulState(index: index, is_check: is_check);
+}
+
+class _CheckboxStatefulState extends State<CheckboxStateful> {
+  _CheckboxStatefulState({required this.index, required this.is_check});
+
+  final int index;
+  bool is_check;
+  @override
+  Widget build(BuildContext context) {
+    return Checkbox(
+        value: is_check,
+        onChanged: (value) {
+          if (value == null) {
+            return;
+          }
+          setState(() {
+            is_check = value;
+          });
+          if (is_check) {
+            HomePr.del_id.add(index);
+          } else {
+            HomePr.del_id.remove(index);
+          }
+        });
   }
 }

@@ -1,8 +1,8 @@
 enum Pages {
   home,
   addPr,
-  updatePr,
   infoPr,
+  updatePr,
   settings,
   error,
 }
@@ -11,9 +11,9 @@ extension AppPageExtension on Pages {
   String get screenPath {
     return switch (this) {
       Pages.home => '/',
-      Pages.addPr => 'add_todo',
-      Pages.updatePr => 'update_todo',
-      Pages.infoPr => 'info_todo',
+      Pages.addPr => 'add_pr',
+      Pages.infoPr => 'info_pr_:id',
+      Pages.updatePr => 'update_pr',
       Pages.settings => 'settigns',
       Pages.error => 'error',
     };
@@ -21,10 +21,10 @@ extension AppPageExtension on Pages {
 
   String get screenName {
     return switch (this) {
-      Pages.home => 'HOME',
-      Pages.addPr => 'ADDTODO',
-      Pages.updatePr => 'UPDATEPR',
+      Pages.home => 'HOMEPR',
+      Pages.addPr => 'ADDPR',
       Pages.infoPr => 'INFOPR',
+      Pages.updatePr => 'UPDATEPR',
       Pages.settings => 'SETTIGNS',
       Pages.error => 'ERROR',
     };

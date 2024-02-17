@@ -18,7 +18,7 @@ class AddPr extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if(!_keyForm.currentState!.validate()) return;
+          if (!_keyForm.currentState!.validate()) return;
           context
               .read<PrController>()
               .addPr(_title.text, _description.text, _full_description.text);
@@ -54,12 +54,12 @@ class AddPr extends StatelessWidget {
               TextFormField(
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return 'Поле пустое';
+                    //return 'Поле пустое';
                   }
                   return null;
                 },
                 controller: _description,
-                minLines: 3,
+                minLines: 1,
                 maxLines: 3,
                 decoration: const InputDecoration(
                   label: Text('Краткое описание'),
@@ -70,14 +70,8 @@ class AddPr extends StatelessWidget {
                 height: 15,
               ),
               TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Поле пустое';
-                  }
-                  return null;
-                },
                 controller: _full_description,
-                minLines: 3,
+                minLines: 1,
                 maxLines: 3,
                 decoration: const InputDecoration(
                   label: Text('Описание'),

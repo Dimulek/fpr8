@@ -11,7 +11,7 @@ abstract interface class PrLocalHive {
   Future<Unit> readPr(PrModel model);
   Future<List<PrModel>> writePr();
 
-  Future<Unit> updatePr(PrModel model);
+  Future<Unit> updatePr(int index, PrModel model);
   Future<Unit> deletePr(PrModel model);
 }
 
@@ -35,8 +35,8 @@ class PrLocalHiveimpl implements PrLocalHive {
 
   @override
   Future<Unit> readPr(PrModel model) async {
-    final obejctBox = Hive.box<PrModel>(_kObjectBox);
-    await obejctBox.put(model.id, model);
+    final objectBox = Hive.box<PrModel>(_kObjectBox);
+    await objectBox.put(model.id, model);
     return Future.value(unit);
   }
 
@@ -51,10 +51,10 @@ class PrLocalHiveimpl implements PrLocalHive {
   }
 
   @override
-  Future<Unit> updatePr(PrModel model) async {
+  Future<Unit> updatePr(int index, PrModel model) async {
     try {
       final objectBox = Hive.box<PrModel>(_kObjectBox);
-      objectBox.put(model.id, model);
+      await objectBox.putAt(index, model);
       return Future.value(unit);
     } catch (_) {
       throw CacheException();

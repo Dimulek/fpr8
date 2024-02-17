@@ -35,7 +35,7 @@ class AppRouter {
             name: Pages.infoPr.screenName,
             builder: (context, state) => ChangeNotifierProvider.value(
               value: service<PrController>(),
-              child: InfoPr(),
+              child: InfoPr(index: int.parse(state.pathParameters['id']?? "-1")),
             ),
             routes: [
               GoRoute(
@@ -43,7 +43,7 @@ class AppRouter {
                 name: Pages.updatePr.screenName,
                 builder: (context, state) => ChangeNotifierProvider.value(
                   value: service<PrController>(),
-                  child: UpdatePr(),
+                  child: UpdatePr(index: int.parse(state.pathParameters['id']?? "-1")),
                 ),
               ),
             ],
