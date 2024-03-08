@@ -1,7 +1,7 @@
+import 'package:fpr8/features/pr/cubit/counter_cubit.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:fpr8/di/service.dart';
-import 'package:fpr8/features/pr/presentation/controller/pr_controller.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpr8/features/pr/presentation/ui/home_pr.dart';
 import 'package:fpr8/features/pr/presentation/ui/add_pr.dart';
 import 'package:fpr8/features/pr/presentation/ui/update_pr.dart';
@@ -17,33 +17,35 @@ class AppRouter {
       GoRoute(
         path: Pages.home.screenPath,
         name: Pages.home.screenName,
-        builder: (context, state) => ChangeNotifierProvider(
-          create: (context) => service<PrController>()..init(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => service<CounterCubit>()..init(),
           child: const HomePr(),
         ),
         routes: [
           GoRoute(
             path: Pages.addPr.screenPath,
             name: Pages.addPr.screenName,
-            builder: (context, state) => ChangeNotifierProvider.value(
-              value: service<PrController>(),
+            builder: (context, state) => BlocProvider.value(
+              value: service<CounterCubit>(),
               child: AddPr(),
             ),
           ),
           GoRoute(
             path: Pages.infoPr.screenPath,
             name: Pages.infoPr.screenName,
-            builder: (context, state) => ChangeNotifierProvider.value(
-              value: service<PrController>(),
-              child: InfoPr(index: int.parse(state.pathParameters['id']?? "-1")),
+            builder: (context, state) => BlocProvider.value(
+              value: service<CounterCubit>(),
+              child:
+                  InfoPr(index: int.parse(state.pathParameters['id'] ?? "-1")),
             ),
             routes: [
               GoRoute(
                 path: Pages.updatePr.screenPath,
                 name: Pages.updatePr.screenName,
-                builder: (context, state) => ChangeNotifierProvider.value(
-                  value: service<PrController>(),
-                  child: UpdatePr(index: int.parse(state.pathParameters['id']?? "-1")),
+                builder: (context, state) => BlocProvider.value(
+                  value: service<CounterCubit>(),
+                  child: UpdatePr(
+                      index: int.parse(state.pathParameters['id'] ?? "-1")),
                 ),
               ),
             ],

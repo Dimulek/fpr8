@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fpr8/features/pr/cubit/counter_cubit.dart';
 import 'package:provider/provider.dart';
-import 'package:fpr8/features/pr/presentation/controller/pr_controller.dart';
 
 class AddPr extends StatelessWidget {
   AddPr({super.key});
 
   final TextEditingController _title = TextEditingController();
   final TextEditingController _description = TextEditingController();
-  final TextEditingController _full_description = TextEditingController();
+  final TextEditingController _fullDesc = TextEditingController();
   final _keyForm = GlobalKey<FormState>();
 
   @override
@@ -20,8 +20,8 @@ class AddPr extends StatelessWidget {
         onPressed: () {
           if (!_keyForm.currentState!.validate()) return;
           context
-              .read<PrController>()
-              .addPr(_title.text, _description.text, _full_description.text);
+              .read<CounterCubit>()
+              .addPr(_title.text, _description.text, _fullDesc.text);
           Navigator.pop(context);
         },
         child: const Icon(
@@ -70,7 +70,7 @@ class AddPr extends StatelessWidget {
                 height: 15,
               ),
               TextFormField(
-                controller: _full_description,
+                controller: _fullDesc,
                 minLines: 1,
                 maxLines: 3,
                 decoration: const InputDecoration(

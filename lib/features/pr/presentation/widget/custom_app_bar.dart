@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fpr8/features/pr/cubit/counter_cubit.dart';
 import 'package:provider/provider.dart';
-import 'package:fpr8/features/pr/presentation/controller/pr_controller.dart';
-
+ 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
 
@@ -9,7 +9,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(
-          'Не выполнено ${context.watch<PrController>().getCount}'),
+          'Не выполнено ${context.watch<CounterCubit>().getPrList.length}'),
     );
   }
 

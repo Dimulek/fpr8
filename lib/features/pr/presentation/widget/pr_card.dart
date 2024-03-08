@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fpr8/features/pr/cubit/counter_cubit.dart';
 import 'package:fpr8/features/pr/presentation/ui/home_pr.dart';
 import 'package:fpr8/routes/app_router.dart';
 import 'package:fpr8/routes/router_utils.dart';
 import 'package:provider/provider.dart';
-import 'package:fpr8/features/pr/presentation/controller/pr_controller.dart';
 
 class PrCard extends StatelessWidget {
   PrCard({
@@ -20,7 +20,7 @@ class PrCard extends StatelessWidget {
         title: Row(
           children: <Widget>[
             CheckboxStateful(index: index),
-            Text(context.read<PrController>().getPrList[index].title + "  index = ${index}")
+            Text(context.read<CounterCubit>().getPrList[index].title + "  id = ${context.read<CounterCubit>().getPrList[index].id}")
           ],
         ),
         leading: ElevatedButton(
@@ -32,7 +32,7 @@ class PrCard extends StatelessWidget {
         ),
         children: [
           const Text("Краткое описание"),
-          Text(context.read<PrController>().getPrList[index].description),
+          Text(context.read<CounterCubit>().getPrList[index].description),
         ],
       ),
     );
