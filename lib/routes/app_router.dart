@@ -1,3 +1,4 @@
+import 'package:fpr8/features/pr/bloc/counter_bloc.dart';
 import 'package:fpr8/features/pr/cubit/counter_cubit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fpr8/di/service.dart';
@@ -25,8 +26,8 @@ class AppRouter {
           GoRoute(
             path: Pages.addPr.screenPath,
             name: Pages.addPr.screenName,
-            builder: (context, state) => BlocProvider.value(
-              value: service<CounterCubit>(),
+            builder: (context, state) => BlocProvider(
+              create: (context) => service<CounterBloc>(),
               child: AddPr(),
             ),
           ),

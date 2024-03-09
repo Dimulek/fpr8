@@ -43,7 +43,7 @@ class CheckboxStateful extends StatefulWidget {
   CheckboxStateful({required this.index, super.key});
 
   final int index;
-  bool is_check = false;
+  final bool is_check = false;
 
   @override
   State<CheckboxStateful> createState() =>

@@ -9,27 +9,33 @@ class CounterCubit extends Cubit<CounterState> {
   final PrRepository _repo;
   List<PrEntity> get getPrList => state.prList;
 
-  CounterCubit(this._repo) : super(CounterLoading(prList: []));
+  CounterCubit(this._repo) : super(const CounterLoading(prList: []));
   void init() async {
     final result = await _repo.writePr(false);
 
-    result.fold((l) => emit(CounterException(prList: [])),
+    result.fold((l) => emit(const CounterException(prList: [])),
         (list) => emit(CounterSuccess(prList: list)));
   }
 
   Future<void> reload() async {
-    emit(CounterInitial(prList: []));
+    emit(const CounterInitial(prList: []));
   }
 
-  Future<void> addPr(
-      String title, String description, String full_description) async {
+  Future<void> addPr(String title, String description, String fullDesc) async {
+    int index = -1, id = -1;
+    for (int i = 0; i < state.prList.length; ++i) {
+      if (int.parse(state.prList[i].id) > id) {
+        id = int.parse(state.prList[i].id);
+        index = i;
+      }
+    }
     final entity = PrEntity(
-      id: (state.prList.length == 0
+      id: (state.prList.isEmpty
           ? "0"
-          : "${(int.parse(state.prList.last.id) + 1)}"),
+          : "${(index == -1 ? 0 : int.parse(state.prList[index].id) + 1)}"),
       title: title,
       description: description,
-      full_description: full_description,
+      full_description: fullDesc,
     );
     final result = await _repo.readPr(entity);
 
@@ -39,20 +45,20 @@ class CounterCubit extends Cubit<CounterState> {
     reload();
   }
 
-  Future<void> updatePr(int index, String title, String description,
-      String full_description) async {
+  Future<void> updatePr(
+      int index, String title, String description, String fullDesc) async {
     final entity = PrEntity(
       id: state.prList[index].id,
       title: title,
       description: description,
-      full_description: full_description,
+      full_description: fullDesc,
     );
     final result = await _repo.updatePr(index, entity);
     result.fold((l) => null, (r) {
       state.prList[index] = state.prList[index].copyWith(entity);
     });
     reload();
-  }       
+  }
 
   Future<void> deletePr(int index, {bool is_mass = false}) async {
     final entity = state.prList[index];

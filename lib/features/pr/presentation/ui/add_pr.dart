@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fpr8/features/pr/cubit/counter_cubit.dart';
-import 'package:provider/provider.dart';
+import 'package:fpr8/features/pr/bloc/counter_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddPr extends StatelessWidget {
   AddPr({super.key});
@@ -16,19 +16,36 @@ class AddPr extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Добавление заметки"),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (!_keyForm.currentState!.validate()) return;
-          context
-              .read<CounterCubit>()
-              .addPr(_title.text, _description.text, _fullDesc.text);
-          Navigator.pop(context);
-        },
-        child: const Icon(
-          Icons.save,
-          color: Colors.white,
-        ),
-      ),
+      floatingActionButton:
+          BlocBuilder<CounterBloc, CounterState>(builder: (context, state) {
+        return FloatingActionButton(
+          onPressed: () {
+            if (!_keyForm.currentState!.validate()) return;
+            context.read<CounterBloc>().add(OnClickEvent());
+            Future.delayed(const Duration(seconds: 5), () {
+              context.read<CounterBloc>().add(OnComplite());
+              Future.delayed(const Duration(seconds: 5), () {
+                context.read<CounterBloc>().add(OnReload());
+              });
+            });
+            context
+                .read<CounterBloc>()
+                .cubit
+                .addPr(_title.text, _description.text, _fullDesc.text);
+            //Navigator.pop(context);
+          },
+          child: switch (state) {
+            CounterInitial() => const Icon(
+                Icons.save,
+                color: Colors.white,
+              ),
+            CounterLoading() => const Center(
+                child: CircularProgressIndicator(),
+              ),
+            _ => const Text("?"),
+          },
+        );
+      }),
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: Form(
